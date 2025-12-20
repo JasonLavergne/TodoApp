@@ -100,7 +100,7 @@ function App() {
                         type="checkbox"
                         checked={todo.completed}
                         onChange={() => toggleTodo(todo.id)}
-                        className="w-6 h-6 rounded-lg bg-slate-600 border-slate-500 text-blue-500 focus:ring-2 focus:ring-blue-500/50 focus:ring-offset-2 focus:ring-offset-slate-800 cursor-pointer transition-all checked:bg-gradient-to-r checked:from-blue-600 checked:to-cyan-600"
+                        className="w-6 h-6 rounded-lg bg-slate-600/50 border-2 border-blue-500/50 accent-blue-600 focus:ring-2 focus:ring-blue-500/50 focus:ring-offset-2 focus:ring-offset-slate-800 cursor-pointer transition-all checked:bg-gradient-to-r checked:from-blue-600 checked:to-cyan-600 checked:border-blue-500"
                       />
                     </div>
                     <span
