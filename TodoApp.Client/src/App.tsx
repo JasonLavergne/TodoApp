@@ -40,16 +40,16 @@ function App() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 py-12 px-4">
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 py-12 px-4">
       <div className="max-w-2xl mx-auto">
         <div className="text-center mb-10">
-          <h1 className="text-5xl font-extrabold bg-gradient-to-r from-purple-400 via-pink-400 to-purple-400 bg-clip-text text-transparent mb-3">
+          <h1 className="text-5xl font-extrabold bg-gradient-to-r from-blue-400 via-cyan-400 to-blue-400 bg-clip-text text-transparent mb-3">
             Todo App
           </h1>
           <p className="text-slate-400 text-lg">Stay organized, stay productive</p>
         </div>
         
-        <div className="bg-slate-800/50 backdrop-blur-xl rounded-2xl shadow-2xl border border-slate-700/50 p-6 mb-6">
+        <div className="bg-slate-800/80 backdrop-blur-xl rounded-2xl shadow-xl border border-slate-700/50 p-6 mb-6">
           <div className="flex gap-3">
             <input
               type="text"
@@ -57,18 +57,18 @@ function App() {
               onChange={(e) => setInput(e.target.value)}
               onKeyPress={handleKeyPress}
               placeholder="What needs to be done?"
-              className="flex-1 px-5 py-3.5 bg-slate-700/50 border border-slate-600/50 rounded-xl text-slate-100 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500/50 transition-all"
+              className="flex-1 px-5 py-3.5 bg-slate-700/50 border border-slate-600/50 rounded-xl text-slate-100 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all"
             />
             <button
               onClick={addTodo}
-              className="px-8 py-3.5 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-semibold rounded-xl hover:from-purple-500 hover:to-pink-500 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 focus:ring-offset-slate-900 transition-all shadow-lg shadow-purple-500/25 hover:shadow-purple-500/40 active:scale-95"
+              className="px-8 py-3.5 bg-gradient-to-r from-blue-600 to-cyan-600 text-white font-semibold rounded-xl hover:from-blue-500 hover:to-cyan-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-slate-900 transition-all shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40 active:scale-95"
             >
               Add
             </button>
           </div>
         </div>
 
-        <div className="bg-slate-800/50 backdrop-blur-xl rounded-2xl shadow-2xl border border-slate-700/50 p-6">
+        <div className="bg-slate-800/80 backdrop-blur-xl rounded-2xl shadow-xl border border-slate-700/50 p-6">
           {todos.length === 0 ? (
             <div className="text-center py-16">
               <div className="w-20 h-20 mx-auto mb-4 rounded-full bg-slate-700/50 flex items-center justify-center">
@@ -100,11 +100,11 @@ function App() {
                         type="checkbox"
                         checked={todo.completed}
                         onChange={() => toggleTodo(todo.id)}
-                        className="w-6 h-6 rounded-lg bg-slate-600 border-slate-500 text-purple-600 focus:ring-2 focus:ring-purple-500/50 focus:ring-offset-2 focus:ring-offset-slate-800 cursor-pointer transition-all checked:bg-gradient-to-r checked:from-purple-600 checked:to-pink-600"
+                        className="w-6 h-6 rounded-lg bg-slate-600 border-slate-500 text-blue-500 focus:ring-2 focus:ring-blue-500/50 focus:ring-offset-2 focus:ring-offset-slate-800 cursor-pointer transition-all checked:bg-gradient-to-r checked:from-blue-600 checked:to-cyan-600"
                       />
                     </div>
                     <span
-                      className={`flex-1 text-slate-100 transition-all ${
+                      className={`flex-1 transition-all ${
                         todo.completed
                           ? 'line-through text-slate-500'
                           : 'text-slate-200'
@@ -136,7 +136,7 @@ function App() {
                     <div className="flex items-center gap-2">
                       <div className="h-2 w-32 bg-slate-700/50 rounded-full overflow-hidden">
                         <div 
-                          className="h-full bg-gradient-to-r from-purple-600 to-pink-600 transition-all duration-300 rounded-full"
+                          className="h-full bg-gradient-to-r from-blue-600 to-cyan-600 transition-all duration-300 rounded-full"
                           style={{ width: `${todos.length > 0 ? (todos.filter(t => t.completed).length / todos.length) * 100 : 0}%` }}
                         />
                       </div>
