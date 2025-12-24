@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { Header } from './components/Header'
 
 interface Todo {
   id: number
@@ -40,8 +41,10 @@ function App() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 py-12 px-4">
-      <div className="max-w-2xl mx-auto">
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
+      <Header />
+      <div className="pt-20 pb-12 px-4">
+        <div className="max-w-2xl mx-auto">
         <div className="text-center mb-10">
           <h1 className="text-5xl font-extrabold bg-gradient-to-r from-blue-400 via-cyan-400 to-blue-400 bg-clip-text text-transparent mb-3">
             Todo App
@@ -149,6 +152,7 @@ function App() {
               )}
             </>
           )}
+        </div>
         </div>
       </div>
     </div>
