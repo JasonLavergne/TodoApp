@@ -2,22 +2,27 @@ import { useState } from 'react'
 import { useAuth } from '../contexts/AuthContext'
 
 export function Header() {
-  const { user, login, logout, isAuthenticated } = useAuth()
+  const { user, login, logout, isAuthenticated, loading, error } = useAuth()
   const [showLoginModal, setShowLoginModal] = useState(false)
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [showProfileMenu, setShowProfileMenu] = useState(false)
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault()
-    login(email, password)
-    setEmail('')
-    setPassword('')
-    setShowLoginModal(false)
+    try {
+      await login(email, password)
+      setEmail('')
+      setPassword('')
+      setShowLoginModal(false)
+    } catch (err) {
+      // Error is already set in context, it will be displayed
+      console.error('Login failed:', err)
+    }
   }
 
-  const handleLogout = () => {
-    logout()
+  const handleLogout = async () => {
+    await logout()
     setShowProfileMenu(false)
   }
 
@@ -114,6 +119,12 @@ export function Header() {
               </div>
 
               <form onSubmit={handleLogin} className="space-y-4">
+                {error && (
+                  <div className="px-4 py-3 bg-red-500/20 border border-red-500/50 rounded-xl text-red-400 text-sm">
+                    {error}
+                  </div>
+                )}
+
                 <div>
                   <label htmlFor="email" className="block text-sm font-medium text-slate-300 mb-2">
                     Email
@@ -126,6 +137,7 @@ export function Header() {
                     placeholder="Enter your email"
                     className="w-full px-4 py-3 bg-slate-700/50 border border-slate-600/50 rounded-xl text-slate-100 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all"
                     required
+                    disabled={loading}
                   />
                 </div>
 
@@ -141,14 +153,16 @@ export function Header() {
                     placeholder="Enter your password"
                     className="w-full px-4 py-3 bg-slate-700/50 border border-slate-600/50 rounded-xl text-slate-100 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all"
                     required
+                    disabled={loading}
                   />
                 </div>
 
                 <button
                   type="submit"
-                  className="w-full px-6 py-3 bg-gradient-to-r from-blue-600 to-cyan-600 text-white font-semibold rounded-xl hover:from-blue-500 hover:to-cyan-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-slate-800 transition-all shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40 active:scale-95"
+                  disabled={loading}
+                  className="w-full px-6 py-3 bg-gradient-to-r from-blue-600 to-cyan-600 text-white font-semibold rounded-xl hover:from-blue-500 hover:to-cyan-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-slate-800 transition-all shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  Login
+                  {loading ? 'Logging in...' : 'Login'}
                 </button>
               </form>
             </div>
