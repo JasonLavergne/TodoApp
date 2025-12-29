@@ -61,7 +61,7 @@ export function Header() {
                   onClick={() => setShowProfileMenu(!showProfileMenu)}
                   className="flex items-center gap-3 px-4 py-2 rounded-xl bg-slate-800/80 hover:bg-slate-700/80 border border-slate-700/50 transition-all"
                 >
-                  <div className="w-8 h-8 rounded-full bg-gradient-to-r from-blue-600 to-cyan-600 flex items-center justify-center text-white font-semibold text-sm">
+                  <div className="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center text-white font-semibold text-sm">
                     {user?.name.charAt(0).toUpperCase()}
                   </div>
                   <span className="text-slate-200 font-medium hidden sm:block">
@@ -83,7 +83,7 @@ export function Header() {
                       className="fixed inset-0 z-10"
                       onClick={() => setShowProfileMenu(false)}
                     />
-                    <div className="absolute right-0 mt-2 w-56 bg-slate-800 rounded-xl shadow-xl border border-slate-700/50 overflow-hidden z-20">
+                    <div className="absolute right-0 mt-2 w-56 bg-slate-800 rounded-xl border border-slate-700/50 overflow-hidden z-20">
                       <div className="px-4 py-3 border-b border-slate-700/50">
                         <p className="text-sm font-medium text-slate-200">{user?.name}</p>
                         <p className="text-sm text-slate-400 truncate">{user?.email}</p>
@@ -103,7 +103,7 @@ export function Header() {
             ) : (
               <button
                 onClick={() => setShowLoginModal(true)}
-                className="px-6 py-2.5 bg-gradient-to-r from-blue-600 to-cyan-600 text-white font-semibold rounded-xl hover:from-blue-500 hover:to-cyan-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-slate-900 transition-all shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40 active:scale-95"
+                className="px-6 py-2.5 bg-blue-600 text-white font-semibold rounded-xl hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-slate-900 transition-all active:scale-95"
               >
                 Login
               </button>
@@ -122,7 +122,7 @@ export function Header() {
             }}
           >
             <div
-              className="bg-slate-800 rounded-2xl shadow-xl border border-slate-700/50 p-6 w-full max-w-md"
+              className="bg-slate-800 rounded-2xl border border-slate-700/50 p-6 w-full max-w-md"
               onClick={(e) => e.stopPropagation()}
             >
               <div className="flex items-center justify-between mb-6">
@@ -203,7 +203,7 @@ export function Header() {
                 <button
                   type="submit"
                   disabled={loading}
-                  className="w-full px-6 py-3 bg-gradient-to-r from-blue-600 to-cyan-600 text-white font-semibold rounded-xl hover:from-blue-500 hover:to-cyan-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-slate-800 transition-all shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="w-full px-6 py-3 bg-blue-600 text-white font-semibold rounded-xl hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-slate-800 transition-all active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {loading 
                     ? (isRegisterMode ? 'Registering...' : 'Logging in...') 

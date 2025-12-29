@@ -150,12 +150,12 @@ function App() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
+    <div className="min-h-screen bg-slate-900">
       <Header />
       <div className="pt-20 pb-12 px-4">
         <div className="max-w-2xl mx-auto">
         <div className="text-center mb-10">
-          <h1 className="text-5xl font-extrabold bg-gradient-to-r from-blue-400 via-cyan-400 to-blue-400 bg-clip-text text-transparent mb-3">
+          <h1 className="text-5xl font-extrabold text-blue-400 mb-3">
             Todo App
           </h1>
           <p className="text-slate-400 text-lg">Stay organized, stay productive</p>
@@ -173,7 +173,7 @@ function App() {
           </div>
         )}
         
-        <div className="bg-slate-800/80 backdrop-blur-xl rounded-2xl shadow-xl border border-slate-700/50 p-6 mb-6">
+        <div className="bg-slate-800/80 backdrop-blur-xl rounded-2xl border border-slate-700/50 p-6 mb-6">
           <div className="flex gap-3">
             <input
               type="text"
@@ -187,14 +187,14 @@ function App() {
             <button
               onClick={addTodo}
               disabled={!isAuthenticated || loading || input.trim() === ''}
-              className="px-8 py-3.5 bg-gradient-to-r from-blue-600 to-cyan-600 text-white font-semibold rounded-xl hover:from-blue-500 hover:to-cyan-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-slate-900 transition-all shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:from-blue-600 disabled:hover:to-cyan-600"
+              className="px-8 py-3.5 bg-blue-600 text-white font-semibold rounded-xl hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-slate-900 transition-all active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-blue-600"
             >
               {loading ? 'Adding...' : 'Add'}
             </button>
           </div>
         </div>
 
-        <div className="bg-slate-800/80 backdrop-blur-xl rounded-2xl shadow-xl border border-slate-700/50 p-6">
+        <div className="bg-slate-800/80 backdrop-blur-xl rounded-2xl border border-slate-700/50 p-6">
           {loading && todos.length === 0 ? (
             <div className="text-center py-16">
               <div className="w-20 h-20 mx-auto mb-4 rounded-full bg-slate-700/50 flex items-center justify-center">
@@ -237,7 +237,7 @@ function App() {
                         checked={todo.completed}
                         onChange={() => toggleTodo(todo.id)}
                         disabled={loading || !isAuthenticated}
-                        className="w-6 h-6 rounded-lg bg-slate-600/50 border-2 border-blue-500/50 accent-blue-600 focus:ring-2 focus:ring-blue-500/50 focus:ring-offset-2 focus:ring-offset-slate-800 cursor-pointer transition-all checked:bg-gradient-to-r checked:from-blue-600 checked:to-cyan-600 checked:border-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
+                        className="w-6 h-6 rounded-lg bg-slate-600/50 border-2 border-blue-500/50 accent-blue-600 focus:ring-2 focus:ring-blue-500/50 focus:ring-offset-2 focus:ring-offset-slate-800 cursor-pointer transition-all checked:bg-blue-600 checked:border-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
                       />
                     </div>
                     <span
@@ -274,7 +274,7 @@ function App() {
                     <div className="flex items-center gap-2">
                       <div className="h-2 w-32 bg-slate-700/50 rounded-full overflow-hidden">
                         <div 
-                          className="h-full bg-gradient-to-r from-blue-600 to-cyan-600 transition-all duration-300 rounded-full"
+                          className="h-full bg-blue-600 transition-all duration-300 rounded-full"
                           style={{ width: `${todos.length > 0 ? (todos.filter(t => t.completed).length / todos.length) * 100 : 0}%` }}
                         />
                       </div>
