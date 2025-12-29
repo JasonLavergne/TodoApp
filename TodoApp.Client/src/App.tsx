@@ -205,7 +205,7 @@ function App() {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                   </svg>
                 </div>
-                <p className="text-slate-300 text-lg font-semibold mb-1">
+                <p className="text-slate-100 text-lg font-semibold mb-1">
                   No tasks yet
                 </p>
                 <p className="text-slate-500 text-sm">
@@ -237,7 +237,7 @@ function App() {
                         className={`flex-1 transition-all duration-200 text-base ${
                           todo.completed
                             ? 'line-through text-slate-500'
-                            : 'text-slate-200'
+                            : 'text-slate-100'
                         }`}
                       >
                         {todo.text}

@@ -55,7 +55,7 @@ export function Header() {
       <header className="fixed top-0 right-0 left-0 z-50 bg-slate-900/70 backdrop-blur-xl border-b border-slate-700/50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
-            <h1 className="text-xl sm:text-2xl font-semibold text-blue-400">
+            <h1 className="text-xl sm:text-2xl font-semibold text-slate-100">
               My Tasks
             </h1>
             {isAuthenticated ? (
@@ -67,7 +67,7 @@ export function Header() {
                   <div className="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center text-white font-semibold text-sm">
                     {user?.name.charAt(0).toUpperCase()}
                   </div>
-                  <span className="text-slate-200 font-medium hidden sm:block">
+                  <span className="text-slate-100 font-medium hidden sm:block">
                     {user?.name}
                   </span>
                   <svg
@@ -88,7 +88,7 @@ export function Header() {
                     />
                     <div className="absolute right-0 mt-2 w-56 bg-slate-800/95 backdrop-blur-xl rounded-xl border border-slate-700/50 overflow-hidden z-20">
                       <div className="px-4 py-3 border-b border-slate-700/50">
-                        <p className="text-sm font-semibold text-slate-200">{user?.name}</p>
+                        <p className="text-sm font-semibold text-slate-100">{user?.name}</p>
                         <p className="text-sm text-slate-400 truncate mt-0.5">{user?.email}</p>
                       </div>
                       <div className="py-1">
@@ -129,7 +129,7 @@ export function Header() {
               onClick={(e) => e.stopPropagation()}
             >
               <div className="flex items-center justify-between mb-6">
-                <h2 className="text-2xl sm:text-3xl font-bold text-blue-400">
+                <h2 className="text-2xl sm:text-3xl font-bold text-slate-100">
                   {isRegisterMode ? 'Register' : 'Login'}
                 </h2>
                 <button
@@ -137,7 +137,7 @@ export function Header() {
                     setShowLoginModal(false)
                     resetForm()
                   }}
-                  className="text-slate-400 hover:text-slate-200 transition-colors duration-200 p-1 hover:bg-slate-700/50 rounded-lg"
+                  className="text-slate-400 hover:text-slate-100 transition-colors duration-200 p-1 hover:bg-slate-700/50 rounded-lg"
                 >
                   <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
