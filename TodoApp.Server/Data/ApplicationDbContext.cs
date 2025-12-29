@@ -23,6 +23,10 @@ public class ApplicationDbContext : DbContext
             entity.Property(e => e.Text).IsRequired().HasMaxLength(500);
             entity.Property(e => e.Completed).HasDefaultValue(false);
             entity.Property(e => e.CreatedAt).IsRequired();
+            entity.HasOne(e => e.User)
+                  .WithMany()
+                  .HasForeignKey(e => e.UserId)
+                  .OnDelete(DeleteBehavior.Cascade);
         });
 
         modelBuilder.Entity<User>(entity =>
