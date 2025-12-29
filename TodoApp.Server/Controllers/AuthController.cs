@@ -57,6 +57,62 @@ namespace TodoApp.Server.Controllers
             return Ok(response);
         }
 
+        [HttpPost("register")]
+        public async Task<IActionResult> Register([FromBody] RegisterRequest request)
+        {
+            if (string.IsNullOrEmpty(request.Name) || string.IsNullOrEmpty(request.Email) || string.IsNullOrEmpty(request.Password))
+            {
+                return BadRequest(new { message = "Name, email, and password are required" });
+            }
+
+            // Validate email format
+            if (!request.Email.Contains("@") || !request.Email.Contains("."))
+            {
+                return BadRequest(new { message = "Invalid email format" });
+            }
+
+            // Validate password length
+            if (request.Password.Length < 6)
+            {
+                return BadRequest(new { message = "Password must be at least 6 characters long" });
+            }
+
+            // Check if user already exists
+            var existingUser = await _context.Users
+                .FirstOrDefaultAsync(u => u.Email == request.Email);
+
+            if (existingUser != null)
+            {
+                return Conflict(new { message = "A user with this email already exists" });
+            }
+
+            // Create new user
+            var user = new User
+            {
+                Name = request.Name.Trim(),
+                Email = request.Email.Trim().ToLowerInvariant(),
+                CreatedAt = DateTime.UtcNow
+            };
+
+            // Hash password
+            user.PasswordHash = _passwordHasher.HashPassword(user, request.Password);
+
+            // Save to database
+            _context.Users.Add(user);
+            await _context.SaveChangesAsync();
+
+            // Return user data (in production, generate JWT token here)
+            var response = new
+            {
+                id = user.Id.ToString(),
+                name = user.Name,
+                email = user.Email,
+                token = Guid.NewGuid().ToString() // In production, use JWT tokens
+            };
+
+            return Ok(response);
+        }
+
         [HttpPost("logout")]
         public IActionResult Logout()
         {
@@ -75,6 +131,13 @@ namespace TodoApp.Server.Controllers
 
     public class LoginRequest
     {
+        public string Email { get; set; } = string.Empty;
+        public string Password { get; set; } = string.Empty;
+    }
+
+    public class RegisterRequest
+    {
+        public string Name { get; set; } = string.Empty;
         public string Email { get; set; } = string.Empty;
         public string Password { get; set; } = string.Empty;
     }

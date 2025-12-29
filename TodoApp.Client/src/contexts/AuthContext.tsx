@@ -11,6 +11,7 @@ interface User {
 interface AuthContextType {
   user: User | null
   login: (email: string, password: string) => Promise<void>
+  register: (name: string, email: string, password: string) => Promise<void>
   logout: () => Promise<void>
   isAuthenticated: boolean
   loading: boolean
@@ -74,6 +75,43 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   }
 
+  const register = async (name: string, email: string, password: string) => {
+    setLoading(true)
+    setError(null)
+    
+    try {
+      const response = await fetch(`${API_BASE_URL}/api/auth/register`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ name, email, password }),
+      })
+
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({ message: 'Registration failed' }))
+        throw new Error(errorData.message || 'Registration failed')
+      }
+
+      const userData = await response.json()
+      const user: User = {
+        id: userData.id,
+        name: userData.name,
+        email: userData.email,
+        token: userData.token,
+      }
+      
+      setUser(user)
+      localStorage.setItem('user', JSON.stringify(user))
+    } catch (err) {
+      const errorMessage = err instanceof Error ? err.message : 'An unexpected error occurred'
+      setError(errorMessage)
+      throw err
+    } finally {
+      setLoading(false)
+    }
+  }
+
   const logout = async () => {
     try {
       // Call logout endpoint if you want server-side logout
@@ -93,7 +131,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }
 
   return (
-    <AuthContext.Provider value={{ user, login, logout, isAuthenticated: !!user, loading, error }}>
+    <AuthContext.Provider value={{ user, login, register, logout, isAuthenticated: !!user, loading, error }}>
       {children}
     </AuthContext.Provider>
   )

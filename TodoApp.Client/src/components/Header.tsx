@@ -2,8 +2,10 @@ import { useState } from 'react'
 import { useAuth } from '../contexts/AuthContext'
 
 export function Header() {
-  const { user, login, logout, isAuthenticated, loading, error } = useAuth()
+  const { user, login, register, logout, isAuthenticated, loading, error } = useAuth()
   const [showLoginModal, setShowLoginModal] = useState(false)
+  const [isRegisterMode, setIsRegisterMode] = useState(false)
+  const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [showProfileMenu, setShowProfileMenu] = useState(false)
@@ -19,6 +21,28 @@ export function Header() {
       // Error is already set in context, it will be displayed
       console.error('Login failed:', err)
     }
+  }
+
+  const handleRegister = async (e: React.FormEvent) => {
+    e.preventDefault()
+    try {
+      await register(name, email, password)
+      setName('')
+      setEmail('')
+      setPassword('')
+      setShowLoginModal(false)
+      setIsRegisterMode(false)
+    } catch (err) {
+      // Error is already set in context, it will be displayed
+      console.error('Registration failed:', err)
+    }
+  }
+
+  const resetForm = () => {
+    setName('')
+    setEmail('')
+    setPassword('')
+    setIsRegisterMode(false)
   }
 
   const handleLogout = async () => {
@@ -94,8 +118,7 @@ export function Header() {
             className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4"
             onClick={() => {
               setShowLoginModal(false)
-              setEmail('')
-              setPassword('')
+              resetForm()
             }}
           >
             <div
@@ -103,12 +126,13 @@ export function Header() {
               onClick={(e) => e.stopPropagation()}
             >
               <div className="flex items-center justify-between mb-6">
-                <h2 className="text-2xl font-bold text-slate-200">Login</h2>
+                <h2 className="text-2xl font-bold text-slate-200">
+                  {isRegisterMode ? 'Register' : 'Login'}
+                </h2>
                 <button
                   onClick={() => {
                     setShowLoginModal(false)
-                    setEmail('')
-                    setPassword('')
+                    resetForm()
                   }}
                   className="text-slate-400 hover:text-slate-200 transition-colors"
                 >
@@ -118,10 +142,28 @@ export function Header() {
                 </button>
               </div>
 
-              <form onSubmit={handleLogin} className="space-y-4">
+              <form onSubmit={isRegisterMode ? handleRegister : handleLogin} className="space-y-4">
                 {error && (
                   <div className="px-4 py-3 bg-red-500/20 border border-red-500/50 rounded-xl text-red-400 text-sm">
                     {error}
+                  </div>
+                )}
+
+                {isRegisterMode && (
+                  <div>
+                    <label htmlFor="name" className="block text-sm font-medium text-slate-300 mb-2">
+                      Name
+                    </label>
+                    <input
+                      id="name"
+                      type="text"
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
+                      placeholder="Enter your name"
+                      className="w-full px-4 py-3 bg-slate-700/50 border border-slate-600/50 rounded-xl text-slate-100 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all"
+                      required
+                      disabled={loading}
+                    />
                   </div>
                 )}
 
@@ -150,10 +192,11 @@ export function Header() {
                     type="password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    placeholder="Enter your password"
+                    placeholder={isRegisterMode ? "Enter your password (min. 6 characters)" : "Enter your password"}
                     className="w-full px-4 py-3 bg-slate-700/50 border border-slate-600/50 rounded-xl text-slate-100 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all"
                     required
                     disabled={loading}
+                    minLength={isRegisterMode ? 6 : undefined}
                   />
                 </div>
 
@@ -162,8 +205,27 @@ export function Header() {
                   disabled={loading}
                   className="w-full px-6 py-3 bg-gradient-to-r from-blue-600 to-cyan-600 text-white font-semibold rounded-xl hover:from-blue-500 hover:to-cyan-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-slate-800 transition-all shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  {loading ? 'Logging in...' : 'Login'}
+                  {loading 
+                    ? (isRegisterMode ? 'Registering...' : 'Logging in...') 
+                    : (isRegisterMode ? 'Register' : 'Login')}
                 </button>
+
+                <div className="text-center pt-2">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setIsRegisterMode(!isRegisterMode)
+                      setName('')
+                      setEmail('')
+                      setPassword('')
+                    }}
+                    className="text-sm text-slate-400 hover:text-blue-400 transition-colors"
+                  >
+                    {isRegisterMode 
+                      ? 'Already have an account? Login' 
+                      : "Don't have an account? Register"}
+                  </button>
+                </div>
               </form>
             </div>
           </div>
