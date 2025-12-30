@@ -54,10 +54,11 @@ export function Header() {
     <>
       <header className="fixed top-0 right-0 left-0 z-50 bg-slate-900/70 backdrop-blur-xl border-b border-slate-700/50">
         <div className="w-full px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-slate-100 tracking-tight">
+          <div className="relative flex justify-between items-center h-16 lg:grid lg:grid-cols-3">
+            <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-slate-100 tracking-tight lg:justify-self-center lg:col-start-2">
               My Tasks
             </h1>
+            <div className="lg:justify-self-end lg:col-start-3">
             {isAuthenticated ? (
               <div className="relative">
                 <button
@@ -111,6 +112,7 @@ export function Header() {
                 Login
               </button>
             )}
+            </div>
           </div>
         </div>
       </header>
