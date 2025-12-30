@@ -18,6 +18,8 @@ function App() {
   const [input, setInput] = useState('')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [editingId, setEditingId] = useState<number | null>(null)
+  const [editText, setEditText] = useState('')
 
   // Load todos when user logs in
   useEffect(() => {
@@ -117,6 +119,65 @@ function App() {
       ))
     } finally {
       setLoading(false)
+    }
+  }
+
+  const startEdit = (id: number) => {
+    const todo = todos.find(t => t.id === id)
+    if (todo) {
+      setEditingId(id)
+      setEditText(todo.text)
+    }
+  }
+
+  const cancelEdit = () => {
+    setEditingId(null)
+    setEditText('')
+  }
+
+  const saveEdit = async (id: number) => {
+    if (!user || editText.trim() === '') {
+      cancelEdit()
+      return
+    }
+
+    setLoading(true)
+    setError(null)
+    try {
+      const response = await fetch(`${API_BASE_URL}/api/todo/${id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          userId: parseInt(user.id),
+          text: editText.trim()
+        }),
+      })
+
+      if (!response.ok) {
+        throw new Error('Failed to update todo')
+      }
+
+      const updatedTodo = await response.json()
+      setTodos(todos.map(t => 
+        t.id === id ? updatedTodo : t
+      ))
+      setEditingId(null)
+      setEditText('')
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to update todo')
+      console.error('Error updating todo:', err)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const handleEditKeyPress = (e: React.KeyboardEvent, id: number) => {
+    if (e.key === 'Enter') {
+      saveEdit(id)
+    } else if (e.key === 'Escape') {
+      cancelEdit()
     }
   }
 
@@ -233,25 +294,75 @@ function App() {
                           className="w-5 h-5 rounded-md bg-slate-600/50 border-2 border-blue-500/60 accent-blue-600 focus:ring-2 focus:ring-blue-500/60 focus:ring-offset-2 focus:ring-offset-slate-800 cursor-pointer transition-all duration-200 checked:bg-blue-600 checked:border-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
                         />
                       </div>
-                      <span
-                        className={`flex-1 transition-all duration-200 text-base ${
-                          todo.completed
-                            ? 'line-through text-slate-500'
-                            : 'text-slate-100'
-                        }`}
-                      >
-                        {todo.text}
-                      </span>
-                      <button
-                        onClick={() => deleteTodo(todo.id)}
-                        disabled={loading || !isAuthenticated}
-                        className="opacity-0 group-hover:opacity-100 p-2 bg-red-500/20 text-red-400 rounded-lg hover:bg-red-500/30 focus:outline-none focus:ring-2 focus:ring-red-500/50 focus:ring-offset-2 focus:ring-offset-slate-800 transition-all duration-200 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed border border-red-500/20 hover:border-red-500/40"
-                        title="Delete"
-                      >
-                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                        </svg>
-                      </button>
+                      {editingId === todo.id ? (
+                        <input
+                          type="text"
+                          value={editText}
+                          onChange={(e) => setEditText(e.target.value)}
+                          onKeyDown={(e) => handleEditKeyPress(e, todo.id)}
+                          autoFocus
+                          className="flex-1 px-3 py-2 bg-slate-600/60 border border-blue-500/60 rounded-lg text-slate-100 focus:outline-none focus:ring-2 focus:ring-blue-500/60 focus:border-blue-500/60 transition-all duration-200 text-base"
+                        />
+                      ) : (
+                        <span
+                          className={`flex-1 transition-all duration-200 text-base ${
+                            todo.completed
+                              ? 'line-through text-slate-500'
+                              : 'text-slate-100'
+                          }`}
+                        >
+                          {todo.text}
+                        </span>
+                      )}
+                      <div className="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                        {editingId === todo.id ? (
+                          <>
+                            <button
+                              onClick={() => saveEdit(todo.id)}
+                              disabled={loading || !isAuthenticated}
+                              className="p-2 bg-green-500/20 text-green-400 rounded-lg hover:bg-green-500/30 focus:outline-none focus:ring-2 focus:ring-green-500/50 focus:ring-offset-2 focus:ring-offset-slate-800 transition-all duration-200 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed border border-green-500/20 hover:border-green-500/40"
+                              title="Save"
+                            >
+                              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                              </svg>
+                            </button>
+                            <button
+                              onClick={cancelEdit}
+                              disabled={loading || !isAuthenticated}
+                              className="p-2 bg-slate-500/20 text-slate-400 rounded-lg hover:bg-slate-500/30 focus:outline-none focus:ring-2 focus:ring-slate-500/50 focus:ring-offset-2 focus:ring-offset-slate-800 transition-all duration-200 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed border border-slate-500/20 hover:border-slate-500/40"
+                              title="Cancel"
+                            >
+                              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                              </svg>
+                            </button>
+                          </>
+                        ) : (
+                          <>
+                            <button
+                              onClick={() => startEdit(todo.id)}
+                              disabled={loading || !isAuthenticated || todo.completed}
+                              className="p-2 bg-blue-500/20 text-blue-400 rounded-lg hover:bg-blue-500/30 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:ring-offset-2 focus:ring-offset-slate-800 transition-all duration-200 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed border border-blue-500/20 hover:border-blue-500/40"
+                              title="Edit"
+                            >
+                              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                              </svg>
+                            </button>
+                            <button
+                              onClick={() => deleteTodo(todo.id)}
+                              disabled={loading || !isAuthenticated}
+                              className="p-2 bg-red-500/20 text-red-400 rounded-lg hover:bg-red-500/30 focus:outline-none focus:ring-2 focus:ring-red-500/50 focus:ring-offset-2 focus:ring-offset-slate-800 transition-all duration-200 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed border border-red-500/20 hover:border-red-500/40"
+                              title="Delete"
+                            >
+                              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                              </svg>
+                            </button>
+                          </>
+                        )}
+                      </div>
                     </li>
                   ))}
                 </ul>
