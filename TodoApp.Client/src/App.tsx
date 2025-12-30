@@ -276,7 +276,11 @@ function App() {
             ) : (
               <>
                 <ul className="space-y-2.5">
-                  {todos.map(todo => (
+                  {[...todos].sort((a, b) => {
+                    // Incomplete todos first, completed todos last
+                    if (a.completed === b.completed) return 0
+                    return a.completed ? 1 : -1
+                  }).map(todo => (
                     <li
                       key={todo.id}
                       className={`group flex items-center gap-4 p-4 rounded-xl border transition-all duration-200 ${
