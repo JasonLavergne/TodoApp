@@ -413,7 +413,7 @@ function App() {
   return (
     <div className="min-h-screen bg-slate-900">
       <Header />
-      <div className="pt-20 pb-16 px-4 sm:px-6">
+      <div className="pt-[5.5rem] pb-16 px-4 sm:px-6">
         <div className="max-w-2xl mx-auto">
           {!isAuthenticated && !guestWarningDismissed && (
             <div className="bg-amber-500/10 border border-amber-500/30 rounded-2xl p-5 mb-6 backdrop-blur-sm relative">
