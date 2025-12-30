@@ -329,7 +329,7 @@ function App() {
           : 'bg-slate-700/40 border-slate-600/40 hover:bg-slate-700/60 hover:border-slate-500/50'
       }`}
     >
-      <div className="relative flex-shrink-0">
+      <div className="relative flex-shrink-0 flex items-center">
         <input
           type="checkbox"
           checked={todo.completed}

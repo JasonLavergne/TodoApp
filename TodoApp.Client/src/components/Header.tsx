@@ -121,7 +121,7 @@ export function Header() {
         <>
           <div
             className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4"
-            onClick={() => {
+            onMouseDown={() => {
               setShowLoginModal(false)
               resetForm()
             }}
@@ -129,13 +129,14 @@ export function Header() {
             <div
               className="bg-slate-800/95 backdrop-blur-xl rounded-3xl border border-slate-700/50 p-6 sm:p-8 w-full max-w-md"
               onClick={(e) => e.stopPropagation()}
+              onMouseDown={(e) => e.stopPropagation()}
             >
               <div className="flex items-center justify-between mb-6">
                 <h2 className="text-2xl sm:text-3xl font-bold text-slate-100">
                   {isRegisterMode ? 'Register' : 'Login'}
                 </h2>
                 <button
-                  onClick={() => {
+                  onMouseDown={() => {
                     setShowLoginModal(false)
                     resetForm()
                   }}
