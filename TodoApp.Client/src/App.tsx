@@ -12,6 +12,7 @@ interface Todo {
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || (import.meta.env.PROD ? '' : 'http://localhost:5062')
 const GUEST_TODOS_KEY = 'guestTodos'
+const GUEST_WARNING_DISMISSED_KEY = 'guestWarningDismissed'
 
 // Helper functions for localStorage guest todos
 const getGuestTodos = (): Todo[] => {
@@ -44,15 +45,36 @@ function App() {
   const [editText, setEditText] = useState('')
   const [activeCollapsed, setActiveCollapsed] = useState(false)
   const [completedCollapsed, setCompletedCollapsed] = useState(false)
+  const [guestWarningDismissed, setGuestWarningDismissed] = useState(() => {
+    try {
+      return localStorage.getItem(GUEST_WARNING_DISMISSED_KEY) === 'true'
+    } catch {
+      return false
+    }
+  })
 
   // Load todos when user logs in or out
   useEffect(() => {
     if (isAuthenticated && user) {
       loadTodos()
+      // Reset warning dismissed state when user logs in
+      setGuestWarningDismissed(false)
+      try {
+        localStorage.removeItem(GUEST_WARNING_DISMISSED_KEY)
+      } catch (err) {
+        console.error('Error clearing dismissed state:', err)
+      }
     } else {
       // Load guest todos from localStorage
       const guestTodos = getGuestTodos()
       setTodos(guestTodos)
+      // Load dismissed state for guest mode
+      try {
+        const dismissed = localStorage.getItem(GUEST_WARNING_DISMISSED_KEY) === 'true'
+        setGuestWarningDismissed(dismissed)
+      } catch (err) {
+        console.error('Error loading dismissed state:', err)
+      }
     }
   }, [isAuthenticated, user])
 
@@ -282,6 +304,15 @@ function App() {
     }
   }
 
+  const dismissGuestWarning = () => {
+    setGuestWarningDismissed(true)
+    try {
+      localStorage.setItem(GUEST_WARNING_DISMISSED_KEY, 'true')
+    } catch (err) {
+      console.error('Error saving dismissed state:', err)
+    }
+  }
+
   // Separate active and completed todos
   const { activeTodos, completedTodos } = useMemo(() => {
     const active = todos.filter(todo => !todo.completed)
@@ -384,9 +415,18 @@ function App() {
       <Header />
       <div className="pt-20 pb-16 px-4 sm:px-6">
         <div className="max-w-2xl mx-auto">
-          {!isAuthenticated && (
-            <div className="bg-amber-500/10 border border-amber-500/30 rounded-2xl p-5 mb-6 backdrop-blur-sm">
-              <div className="flex items-start gap-3">
+          {!isAuthenticated && !guestWarningDismissed && (
+            <div className="bg-amber-500/10 border border-amber-500/30 rounded-2xl p-5 mb-6 backdrop-blur-sm relative">
+              <button
+                onClick={dismissGuestWarning}
+                className="absolute top-3 right-3 text-amber-400/70 hover:text-amber-400 transition-colors duration-200 p-1 rounded-lg hover:bg-amber-500/10"
+                title="Dismiss"
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+              <div className="flex items-start gap-3 pr-8">
                 <svg className="w-5 h-5 text-amber-400 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
                 </svg>
