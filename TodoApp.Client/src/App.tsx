@@ -385,8 +385,18 @@ function App() {
       <div className="pt-20 pb-16 px-4 sm:px-6">
         <div className="max-w-2xl mx-auto">
           {!isAuthenticated && (
-            <div className="bg-amber-500/10 border border-amber-500/30 rounded-2xl p-5 mb-6 text-center backdrop-blur-sm">
-              <p className="text-amber-400 font-medium">You are in guest mode. Your todos are saved locally. Log in to sync across devices.</p>
+            <div className="bg-amber-500/10 border border-amber-500/30 rounded-2xl p-5 mb-6 backdrop-blur-sm">
+              <div className="flex items-start gap-3">
+                <svg className="w-5 h-5 text-amber-400 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                </svg>
+                <div className="flex-1">
+                  <div className="flex items-center gap-2 mb-1">
+                    <span className="text-amber-400 font-bold text-base">Guest Mode</span>
+                  </div>
+                  <p className="text-amber-300/90 text-sm">Your todos are saved locally. <span className="font-semibold">Log in to sync across devices.</span></p>
+                </div>
+              </div>
             </div>
           )}
 
