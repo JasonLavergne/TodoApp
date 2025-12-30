@@ -345,7 +345,7 @@ function App() {
           onChange={(e) => setEditText(e.target.value)}
           onKeyDown={(e) => handleEditKeyPress(e, todo.id)}
           autoFocus
-          className="flex-1 px-3 py-2 bg-slate-600/60 border border-blue-500/60 rounded-lg text-slate-100 focus:outline-none focus:ring-2 focus:ring-blue-500/60 focus:border-blue-500/60 transition-all duration-200 text-base"
+          className="flex-1 px-3 py-2.5 bg-slate-600/60 border border-blue-500/60 rounded-lg text-slate-100 focus:outline-none focus:ring-2 focus:ring-blue-500/60 focus:border-blue-500/60 transition-all duration-200 text-base"
         />
       ) : (
         <span
@@ -455,12 +455,12 @@ function App() {
                 onKeyPress={handleKeyPress}
                 placeholder="What needs to be done?"
                 disabled={loading}
-                className="flex-1 px-5 py-4 bg-slate-700/40 border border-slate-600/40 rounded-xl text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/60 focus:border-blue-500/60 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed text-base shadow-inner"
+                className="flex-1 px-5 py-2.5 bg-slate-700/40 border border-slate-600/40 rounded-xl text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/60 focus:border-blue-500/60 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed text-base shadow-inner"
               />
               <button
                 onClick={addTodo}
                 disabled={loading || input.trim() === ''}
-                className="px-8 py-4 bg-blue-600 text-white font-semibold rounded-xl hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/60 focus:ring-offset-2 focus:ring-offset-slate-800 transition-all duration-200 active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-blue-600"
+                className="px-8 py-2.5 bg-blue-600 text-white font-semibold rounded-xl hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/60 focus:ring-offset-2 focus:ring-offset-slate-800 transition-all duration-200 active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-blue-600"
               >
                 {loading ? 'Adding...' : 'Add'}
               </button>
