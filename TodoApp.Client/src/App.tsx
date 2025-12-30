@@ -11,6 +11,28 @@ interface Todo {
 }
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || (import.meta.env.PROD ? '' : 'http://localhost:5062')
+const GUEST_TODOS_KEY = 'guestTodos'
+
+// Helper functions for localStorage guest todos
+const getGuestTodos = (): Todo[] => {
+  try {
+    const stored = localStorage.getItem(GUEST_TODOS_KEY)
+    if (stored) {
+      return JSON.parse(stored)
+    }
+  } catch (err) {
+    console.error('Error loading guest todos:', err)
+  }
+  return []
+}
+
+const saveGuestTodos = (todos: Todo[]) => {
+  try {
+    localStorage.setItem(GUEST_TODOS_KEY, JSON.stringify(todos))
+  } catch (err) {
+    console.error('Error saving guest todos:', err)
+  }
+}
 
 function App() {
   const { user, isAuthenticated } = useAuth()
@@ -23,12 +45,14 @@ function App() {
   const [activeCollapsed, setActiveCollapsed] = useState(false)
   const [completedCollapsed, setCompletedCollapsed] = useState(false)
 
-  // Load todos when user logs in
+  // Load todos when user logs in or out
   useEffect(() => {
     if (isAuthenticated && user) {
       loadTodos()
     } else {
-      setTodos([])
+      // Load guest todos from localStorage
+      const guestTodos = getGuestTodos()
+      setTodos(guestTodos)
     }
   }, [isAuthenticated, user])
 
@@ -53,8 +77,25 @@ function App() {
   }
 
   const addTodo = async () => {
-    if (input.trim() === '' || !user) return
+    if (input.trim() === '') return
     
+    // Guest mode: save to localStorage
+    if (!isAuthenticated || !user) {
+      const newTodo: Todo = {
+        id: Date.now(), // Use timestamp as ID for guest todos
+        text: input.trim(),
+        completed: false,
+        createdAt: new Date().toISOString(),
+        updatedAt: null
+      }
+      const updatedTodos = [...todos, newTodo]
+      setTodos(updatedTodos)
+      saveGuestTodos(updatedTodos)
+      setInput('')
+      return
+    }
+    
+    // Authenticated mode: save to API
     setLoading(true)
     setError(null)
     try {
@@ -85,11 +126,20 @@ function App() {
   }
 
   const toggleTodo = async (id: number) => {
-    if (!user) return
-
     const todo = todos.find(t => t.id === id)
     if (!todo) return
 
+    // Guest mode: update localStorage
+    if (!isAuthenticated || !user) {
+      const updatedTodos = todos.map(t => 
+        t.id === id ? { ...t, completed: !t.completed, updatedAt: new Date().toISOString() } : t
+      )
+      setTodos(updatedTodos)
+      saveGuestTodos(updatedTodos)
+      return
+    }
+
+    // Authenticated mode: update via API
     setLoading(true)
     setError(null)
     try {
@@ -138,11 +188,24 @@ function App() {
   }
 
   const saveEdit = async (id: number) => {
-    if (!user || editText.trim() === '') {
+    if (editText.trim() === '') {
       cancelEdit()
       return
     }
 
+    // Guest mode: update localStorage
+    if (!isAuthenticated || !user) {
+      const updatedTodos = todos.map(t => 
+        t.id === id ? { ...t, text: editText.trim(), updatedAt: new Date().toISOString() } : t
+      )
+      setTodos(updatedTodos)
+      saveGuestTodos(updatedTodos)
+      setEditingId(null)
+      setEditText('')
+      return
+    }
+
+    // Authenticated mode: update via API
     setLoading(true)
     setError(null)
     try {
@@ -184,8 +247,15 @@ function App() {
   }
 
   const deleteTodo = async (id: number) => {
-    if (!user) return
+    // Guest mode: update localStorage
+    if (!isAuthenticated || !user) {
+      const updatedTodos = todos.filter(todo => todo.id !== id)
+      setTodos(updatedTodos)
+      saveGuestTodos(updatedTodos)
+      return
+    }
 
+    // Authenticated mode: delete via API
     setLoading(true)
     setError(null)
     try {
@@ -233,7 +303,7 @@ function App() {
           type="checkbox"
           checked={todo.completed}
           onChange={() => toggleTodo(todo.id)}
-          disabled={loading || !isAuthenticated}
+          disabled={loading}
           className="w-5 h-5 rounded-md bg-slate-600/50 border-2 border-blue-500/60 accent-blue-600 focus:ring-2 focus:ring-blue-500/60 focus:ring-offset-2 focus:ring-offset-slate-800 cursor-pointer transition-all duration-200 checked:bg-blue-600 checked:border-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
         />
       </div>
@@ -262,7 +332,7 @@ function App() {
           <>
             <button
               onClick={() => saveEdit(todo.id)}
-              disabled={loading || !isAuthenticated}
+              disabled={loading}
               className="p-2 bg-green-500/20 text-green-400 rounded-lg hover:bg-green-500/30 focus:outline-none focus:ring-2 focus:ring-green-500/50 focus:ring-offset-2 focus:ring-offset-slate-800 transition-all duration-200 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed border border-green-500/20 hover:border-green-500/40"
               title="Save"
             >
@@ -272,7 +342,7 @@ function App() {
             </button>
             <button
               onClick={cancelEdit}
-              disabled={loading || !isAuthenticated}
+              disabled={loading}
               className="p-2 bg-slate-500/20 text-slate-400 rounded-lg hover:bg-slate-500/30 focus:outline-none focus:ring-2 focus:ring-slate-500/50 focus:ring-offset-2 focus:ring-offset-slate-800 transition-all duration-200 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed border border-slate-500/20 hover:border-slate-500/40"
               title="Cancel"
             >
@@ -285,7 +355,7 @@ function App() {
           <>
             <button
               onClick={() => startEdit(todo.id)}
-              disabled={loading || !isAuthenticated || todo.completed}
+              disabled={loading || todo.completed}
               className="p-2 bg-blue-500/20 text-blue-400 rounded-lg hover:bg-blue-500/30 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:ring-offset-2 focus:ring-offset-slate-800 transition-all duration-200 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed border border-blue-500/20 hover:border-blue-500/40"
               title="Edit"
             >
@@ -295,7 +365,7 @@ function App() {
             </button>
             <button
               onClick={() => deleteTodo(todo.id)}
-              disabled={loading || !isAuthenticated}
+              disabled={loading}
               className="p-2 bg-red-500/20 text-red-400 rounded-lg hover:bg-red-500/30 focus:outline-none focus:ring-2 focus:ring-red-500/50 focus:ring-offset-2 focus:ring-offset-slate-800 transition-all duration-200 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed border border-red-500/20 hover:border-red-500/40"
               title="Delete"
             >
@@ -316,7 +386,7 @@ function App() {
         <div className="max-w-2xl mx-auto">
           {!isAuthenticated && (
             <div className="bg-amber-500/10 border border-amber-500/30 rounded-2xl p-5 mb-6 text-center backdrop-blur-sm">
-              <p className="text-amber-400 font-medium">Please log in to save and manage your todos</p>
+              <p className="text-amber-400 font-medium">You are in guest mode. Your todos are saved locally. Log in to sync across devices.</p>
             </div>
           )}
 
@@ -333,13 +403,13 @@ function App() {
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyPress={handleKeyPress}
-                placeholder={isAuthenticated ? "What needs to be done?" : "Log in to add todos"}
-                disabled={!isAuthenticated || loading}
+                placeholder="What needs to be done?"
+                disabled={loading}
                 className="flex-1 px-5 py-4 bg-slate-700/40 border border-slate-600/40 rounded-xl text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/60 focus:border-blue-500/60 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed text-base shadow-inner"
               />
               <button
                 onClick={addTodo}
-                disabled={!isAuthenticated || loading || input.trim() === ''}
+                disabled={loading || input.trim() === ''}
                 className="px-8 py-4 bg-blue-600 text-white font-semibold rounded-xl hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/60 focus:ring-offset-2 focus:ring-offset-slate-800 transition-all duration-200 active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-blue-600"
               >
                 {loading ? 'Adding...' : 'Add'}
