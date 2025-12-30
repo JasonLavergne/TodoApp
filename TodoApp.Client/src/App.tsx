@@ -345,11 +345,11 @@ function App() {
           onChange={(e) => setEditText(e.target.value)}
           onKeyDown={(e) => handleEditKeyPress(e, todo.id)}
           autoFocus
-          className="flex-1 px-3 py-2.5 bg-slate-600/60 border border-blue-500/60 rounded-lg text-slate-100 focus:outline-none focus:ring-2 focus:ring-blue-500/60 focus:border-blue-500/60 transition-all duration-200 text-base"
+          className="flex-1 px-3 py-2.5 bg-slate-600/60 border border-blue-500/60 rounded-lg text-slate-100 focus:outline-none focus:ring-2 focus:ring-blue-500/60 focus:border-blue-500/60 transition-all duration-200 text-base leading-normal"
         />
       ) : (
         <span
-          className={`flex-1 transition-all duration-200 text-base ${
+          className={`flex-1 px-3 py-2.5 border border-transparent rounded-lg transition-all duration-200 text-base leading-normal ${
             todo.completed
               ? 'line-through text-slate-500'
               : 'text-slate-100'
