@@ -53,9 +53,9 @@ export function Header() {
   return (
     <>
       <header className="fixed top-0 right-0 left-0 z-50 bg-slate-900/70 backdrop-blur-xl border-b border-slate-700/50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="w-full px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
-            <h1 className="text-xl sm:text-2xl font-semibold text-slate-100">
+            <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-slate-100 tracking-tight">
               My Tasks
             </h1>
             {isAuthenticated ? (
