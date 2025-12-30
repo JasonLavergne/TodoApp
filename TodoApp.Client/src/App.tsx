@@ -364,7 +364,7 @@ function App() {
             <button
               onClick={() => saveEdit(todo.id)}
               disabled={loading}
-              className="p-2 bg-green-500/20 text-green-400 rounded-lg hover:bg-green-500/30 focus:outline-none focus:ring-2 focus:ring-green-500/50 focus:ring-offset-2 focus:ring-offset-slate-800 transition-all duration-200 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed border border-green-500/20 hover:border-green-500/40"
+              className="p-2 bg-green-500/20 text-green-400 rounded-lg hover:bg-green-500/30 focus:outline-none focus:ring-2 focus:ring-green-500/50 focus:ring-offset-2 focus:ring-offset-slate-800 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed border border-green-500/20 hover:border-green-500/40"
               title="Save"
             >
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -374,7 +374,7 @@ function App() {
             <button
               onClick={cancelEdit}
               disabled={loading}
-              className="p-2 bg-slate-500/20 text-slate-400 rounded-lg hover:bg-slate-500/30 focus:outline-none focus:ring-2 focus:ring-slate-500/50 focus:ring-offset-2 focus:ring-offset-slate-800 transition-all duration-200 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed border border-slate-500/20 hover:border-slate-500/40"
+              className="p-2 bg-slate-500/20 text-slate-400 rounded-lg hover:bg-slate-500/30 focus:outline-none focus:ring-2 focus:ring-slate-500/50 focus:ring-offset-2 focus:ring-offset-slate-800 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed border border-slate-500/20 hover:border-slate-500/40"
               title="Cancel"
             >
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -387,7 +387,7 @@ function App() {
             <button
               onClick={() => startEdit(todo.id)}
               disabled={loading || todo.completed}
-              className="p-2 bg-blue-500/20 text-blue-400 rounded-lg hover:bg-blue-500/30 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:ring-offset-2 focus:ring-offset-slate-800 transition-all duration-200 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed border border-blue-500/20 hover:border-blue-500/40"
+              className="p-2 bg-blue-500/20 text-blue-400 rounded-lg hover:bg-blue-500/30 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:ring-offset-2 focus:ring-offset-slate-800 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed border border-blue-500/20 hover:border-blue-500/40"
               title="Edit"
             >
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -397,7 +397,7 @@ function App() {
             <button
               onClick={() => deleteTodo(todo.id)}
               disabled={loading}
-              className="p-2 bg-red-500/20 text-red-400 rounded-lg hover:bg-red-500/30 focus:outline-none focus:ring-2 focus:ring-red-500/50 focus:ring-offset-2 focus:ring-offset-slate-800 transition-all duration-200 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed border border-red-500/20 hover:border-red-500/40"
+              className="p-2 bg-red-500/20 text-red-400 rounded-lg hover:bg-red-500/30 focus:outline-none focus:ring-2 focus:ring-red-500/50 focus:ring-offset-2 focus:ring-offset-slate-800 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed border border-red-500/20 hover:border-red-500/40"
               title="Delete"
             >
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -416,10 +416,10 @@ function App() {
       <div className="pt-[5.5rem] pb-16 px-4 sm:px-6">
         <div className="max-w-2xl mx-auto">
           {!isAuthenticated && !guestWarningDismissed && (
-            <div className="bg-amber-500/10 border border-amber-500/30 rounded-2xl p-5 mb-6 backdrop-blur-sm relative">
+            <div className="bg-amber-500/5 border border-amber-500/15 rounded-2xl p-5 mb-6 backdrop-blur-sm relative">
               <button
                 onClick={dismissGuestWarning}
-                className="absolute top-3 right-3 text-amber-400/70 hover:text-amber-400 transition-colors duration-200 p-1 rounded-lg hover:bg-amber-500/10"
+                className="absolute top-3 right-3 text-amber-500/50 hover:text-amber-500/70 transition-colors duration-200 p-1 rounded-lg hover:bg-amber-500/5"
                 title="Dismiss"
               >
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -427,14 +427,14 @@ function App() {
                 </svg>
               </button>
               <div className="flex items-start gap-3 pr-8">
-                <svg className="w-5 h-5 text-amber-400 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-5 h-5 text-amber-500/70 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
                 </svg>
                 <div className="flex-1">
                   <div className="flex items-center gap-2 mb-1">
-                    <span className="text-amber-400 font-bold text-base">Guest Mode</span>
+                    <span className="text-amber-500/80 font-bold text-base">Guest Mode</span>
                   </div>
-                  <p className="text-amber-300/90 text-sm">Your todos are saved locally. <span className="font-semibold">Log in to sync across devices.</span></p>
+                  <p className="text-amber-500/70 text-sm">Your tasks are saved locally. Log in to sync across devices.</p>
                 </div>
               </div>
             </div>
@@ -460,7 +460,7 @@ function App() {
               <button
                 onClick={addTodo}
                 disabled={loading || input.trim() === ''}
-                className="px-8 py-2.5 bg-blue-600 text-white font-semibold rounded-xl hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/60 focus:ring-offset-2 focus:ring-offset-slate-800 transition-all duration-200 active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-blue-600"
+                className="px-8 py-2.5 bg-blue-600 text-white font-semibold rounded-xl hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/60 focus:ring-offset-2 focus:ring-offset-slate-800 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-blue-600"
               >
                 Add
               </button>
