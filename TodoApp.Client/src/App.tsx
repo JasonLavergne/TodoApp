@@ -585,7 +585,7 @@ function App() {
       </div>
       
       {/* Fixed input section at bottom */}
-      <div className="fixed bottom-0 left-0 right-0 bg-slate-800/95 backdrop-blur-md border-t border-slate-700/50 px-4 sm:px-6 py-4 z-50">
+      <div className="fixed bottom-0 left-0 right-0 px-4 sm:px-6 py-4 z-50">
         <div className="max-w-2xl mx-auto">
           <div className="flex gap-3">
             <input
