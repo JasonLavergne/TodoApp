@@ -358,7 +358,7 @@ function App() {
           {todo.text}
         </span>
       )}
-      <div className="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+      <div className="flex gap-2 opacity-0 group-hover:opacity-100 [@media(hover:none)_and_(pointer:coarse)]:opacity-100 transition-opacity duration-200">
         {editingId === todo.id ? (
           <>
             <button
