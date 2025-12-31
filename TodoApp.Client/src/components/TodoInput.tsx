@@ -13,7 +13,9 @@ export function TodoInput({ input, initialLoading, isAuthenticated, onInputChang
     const inputRef = useRef<HTMLInputElement>(null)
 
     useEffect(() => {
-        inputRef.current?.focus()
+        if (!('ontouchstart' in window)) {
+            inputRef.current?.focus()
+        }
     }, [initialLoading, isAuthenticated, input])
 
     return (

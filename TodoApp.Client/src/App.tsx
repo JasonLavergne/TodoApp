@@ -14,7 +14,7 @@ function App() {
   const { user, isAuthenticated } = useAuth()
   const [input, setInput] = useState('')
   const [activeCollapsed, setActiveCollapsed] = useState(false)
-  const [completedCollapsed, setCompletedCollapsed] = useState(false)
+  const [completedCollapsed, setCompletedCollapsed] = useState(true)
 
   const {
     todos,
