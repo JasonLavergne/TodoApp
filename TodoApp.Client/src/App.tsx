@@ -21,6 +21,7 @@ function App() {
     activeTodos,
     completedTodos,
     loading,
+    initialLoading,
     error,
     editingId,
     editText,
@@ -66,7 +67,7 @@ function App() {
           {error && <ErrorDisplay error={error} />}
 
           <div>
-            {loading && todos.length === 0 ? (
+            {initialLoading && todos.length === 0 ? (
               <LoadingSpinner />
             ) : todos.length === 0 ? (
               <EmptyState />
@@ -127,7 +128,7 @@ function App() {
       
       <TodoInput
         input={input}
-        loading={loading}
+        initialLoading={initialLoading}
         onInputChange={setInput}
         onAdd={handleAddTodo}
         onKeyPress={handleKeyPress}

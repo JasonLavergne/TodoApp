@@ -11,6 +11,7 @@ interface UseTodosProps {
 export function useTodos({ isAuthenticated, userId }: UseTodosProps) {
   const [todos, setTodos] = useState<Todo[]>([])
   const [loading, setLoading] = useState(false)
+  const [initialLoading, setInitialLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [editingId, setEditingId] = useState<number | null>(null)
   const [editText, setEditText] = useState('')
@@ -46,7 +47,7 @@ export function useTodos({ isAuthenticated, userId }: UseTodosProps) {
   const loadTodos = async () => {
     if (!userId) return
 
-    setLoading(true)
+    setInitialLoading(true)
     setError(null)
     try {
       const response = await fetch(`${API_BASE_URL}/api/todo?userId=${userId}`)
@@ -59,7 +60,7 @@ export function useTodos({ isAuthenticated, userId }: UseTodosProps) {
       setError(err instanceof Error ? err.message : 'Failed to load todos')
       console.error('Error loading todos:', err)
     } finally {
-      setLoading(false)
+      setInitialLoading(false)
     }
   }
 
@@ -264,6 +265,7 @@ export function useTodos({ isAuthenticated, userId }: UseTodosProps) {
     activeTodos,
     completedTodos,
     loading,
+    initialLoading,
     error,
     editingId,
     editText,
