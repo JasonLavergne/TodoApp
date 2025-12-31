@@ -411,7 +411,7 @@ function App() {
   )
 
   return (
-    <div className="min-h-screen bg-slate-900">
+    <div className="min-h-screen">
       <Header />
       <div className="pt-[5.5rem] pb-16 px-4 sm:px-6">
         <div className="max-w-2xl mx-auto">
