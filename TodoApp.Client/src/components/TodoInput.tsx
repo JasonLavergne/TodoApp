@@ -1,5 +1,3 @@
-import { useRef, useEffect } from 'react'
-
 interface TodoInputProps {
   input: string
   loading: boolean
@@ -9,18 +7,11 @@ interface TodoInputProps {
 }
 
 export function TodoInput({ input, loading, onInputChange, onAdd, onKeyPress }: TodoInputProps) {
-  const inputRef = useRef<HTMLInputElement>(null)
-
-  useEffect(() => {
-    inputRef.current?.focus()
-  }, [])
-
   return (
     <div className="fixed bottom-0 left-0 right-0 px-4 sm:px-6 py-4 z-50">
       <div className="max-w-2xl mx-auto">
         <div className="flex gap-3">
           <input
-            ref={inputRef}
             type="text"
             value={input}
             onChange={(e) => onInputChange(e.target.value)}
