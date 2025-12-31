@@ -129,6 +129,7 @@ function App() {
       <TodoInput
         input={input}
         initialLoading={initialLoading}
+        isAuthenticated={isAuthenticated}
         onInputChange={setInput}
         onAdd={handleAddTodo}
         onKeyPress={handleKeyPress}

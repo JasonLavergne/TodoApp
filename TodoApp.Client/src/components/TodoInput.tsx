@@ -3,17 +3,18 @@ import { useRef, useEffect } from 'react'
 interface TodoInputProps {
   input: string
   initialLoading: boolean
+  isAuthenticated: boolean
   onInputChange: (value: string) => void
   onAdd: () => void
   onKeyPress: (e: React.KeyboardEvent) => void
 }
 
-export function TodoInput({ input, initialLoading, onInputChange, onAdd, onKeyPress }: TodoInputProps) {
+export function TodoInput({ input, initialLoading, isAuthenticated, onInputChange, onAdd, onKeyPress }: TodoInputProps) {
   const inputRef = useRef<HTMLInputElement>(null)
 
   useEffect(() => {
     inputRef.current?.focus()
-  }, [initialLoading])
+  }, [initialLoading, isAuthenticated])
 
   return (
     <div className="fixed bottom-0 left-0 right-0 px-4 sm:px-6 py-4 z-50">
