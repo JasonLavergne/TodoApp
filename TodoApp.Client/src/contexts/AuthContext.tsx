@@ -24,7 +24,6 @@ const API_BASE_URL = import.meta.env.VITE_API_URL || (import.meta.env.PROD ? '' 
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(() => {
-    // Try to restore user from localStorage
     const savedUser = localStorage.getItem('user')
     if (savedUser) {
       try {
@@ -114,7 +113,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const logout = async () => {
     try {
-      // Call logout endpoint if you want server-side logout
       await fetch(`${API_BASE_URL}/api/auth/logout`, {
         method: 'POST',
         headers: {
@@ -122,7 +120,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         },
       })
     } catch (err) {
-      // Even if API call fails, clear local state
       console.error('Logout API call failed:', err)
     } finally {
       setUser(null)

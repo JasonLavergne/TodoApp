@@ -22,11 +22,9 @@ export function useTodos({ isAuthenticated, userId }: UseTodosProps) {
     }
   })
 
-  // Load todos when user logs in or out
   useEffect(() => {
     if (isAuthenticated && userId) {
       loadTodos()
-      // Reset warning dismissed state when user logs in
       setGuestWarningDismissed(false)
       try {
         localStorage.removeItem(GUEST_WARNING_DISMISSED_KEY)
@@ -34,10 +32,8 @@ export function useTodos({ isAuthenticated, userId }: UseTodosProps) {
         console.error('Error clearing dismissed state:', err)
       }
     } else {
-      // Load guest todos from localStorage
       const guestTodos = getGuestTodos()
       setTodos(guestTodos)
-      // Load dismissed state for guest mode
       try {
         const dismissed = localStorage.getItem(GUEST_WARNING_DISMISSED_KEY) === 'true'
         setGuestWarningDismissed(dismissed)
@@ -70,10 +66,9 @@ export function useTodos({ isAuthenticated, userId }: UseTodosProps) {
   const addTodo = async (text: string) => {
     if (text.trim() === '') return
     
-    // Guest mode: save to localStorage
     if (!isAuthenticated || !userId) {
       const newTodo: Todo = {
-        id: Date.now(), // Use timestamp as ID for guest todos
+        id: Date.now(),
         text: text.trim(),
         completed: false,
         createdAt: new Date().toISOString(),
@@ -85,7 +80,6 @@ export function useTodos({ isAuthenticated, userId }: UseTodosProps) {
       return
     }
     
-    // Authenticated mode: save to API
     setLoading(true)
     setError(null)
     try {
@@ -118,7 +112,6 @@ export function useTodos({ isAuthenticated, userId }: UseTodosProps) {
     const todo = todos.find(t => t.id === id)
     if (!todo) return
 
-    // Guest mode: update localStorage
     if (!isAuthenticated || !userId) {
       const updatedTodos = todos.map(t => 
         t.id === id ? { ...t, completed: !t.completed, updatedAt: new Date().toISOString() } : t
@@ -128,7 +121,6 @@ export function useTodos({ isAuthenticated, userId }: UseTodosProps) {
       return
     }
 
-    // Authenticated mode: update via API
     setLoading(true)
     setError(null)
     try {
@@ -154,7 +146,6 @@ export function useTodos({ isAuthenticated, userId }: UseTodosProps) {
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to update todo')
       console.error('Error updating todo:', err)
-      // Revert optimistic update on error
       setTodos(todos.map(t => 
         t.id === id ? { ...t, completed: !t.completed } : t
       ))
@@ -182,7 +173,6 @@ export function useTodos({ isAuthenticated, userId }: UseTodosProps) {
       return
     }
 
-    // Guest mode: update localStorage
     if (!isAuthenticated || !userId) {
       const updatedTodos = todos.map(t => 
         t.id === id ? { ...t, text: editText.trim(), updatedAt: new Date().toISOString() } : t
@@ -194,7 +184,6 @@ export function useTodos({ isAuthenticated, userId }: UseTodosProps) {
       return
     }
 
-    // Authenticated mode: update via API
     setLoading(true)
     setError(null)
     try {
@@ -228,7 +217,6 @@ export function useTodos({ isAuthenticated, userId }: UseTodosProps) {
   }
 
   const deleteTodo = async (id: number) => {
-    // Guest mode: update localStorage
     if (!isAuthenticated || !userId) {
       const updatedTodos = todos.filter(todo => todo.id !== id)
       setTodos(updatedTodos)
@@ -236,7 +224,6 @@ export function useTodos({ isAuthenticated, userId }: UseTodosProps) {
       return
     }
 
-    // Authenticated mode: delete via API
     setLoading(true)
     setError(null)
     try {
@@ -266,7 +253,6 @@ export function useTodos({ isAuthenticated, userId }: UseTodosProps) {
     }
   }
 
-  // Separate active and completed todos
   const { activeTodos, completedTodos } = useMemo(() => {
     const active = todos.filter(todo => !todo.completed)
     const completed = todos.filter(todo => todo.completed)

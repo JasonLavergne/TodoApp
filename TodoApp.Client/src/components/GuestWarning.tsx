@@ -1,5 +1,3 @@
-import { GUEST_WARNING_DISMISSED_KEY } from '../utils/constants'
-
 interface GuestWarningProps {
   onDismiss: () => void
 }

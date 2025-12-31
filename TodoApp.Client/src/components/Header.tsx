@@ -18,7 +18,6 @@ export function Header() {
       setPassword('')
       setShowLoginModal(false)
     } catch (err) {
-      // Error is already set in context, it will be displayed
       console.error('Login failed:', err)
     }
   }
@@ -33,7 +32,6 @@ export function Header() {
       setShowLoginModal(false)
       setIsRegisterMode(false)
     } catch (err) {
-      // Error is already set in context, it will be displayed
       console.error('Registration failed:', err)
     }
   }
