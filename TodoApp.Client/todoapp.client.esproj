@@ -10,6 +10,7 @@
   </PropertyGroup>
   <ItemGroup>
     <None Remove=".vscode\**" />
+    <None Remove="android\**" />
     <None Remove="dist\**" />
     <None Remove=".gitignore" />
     <None Remove="eslint.config.js" />

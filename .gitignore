@@ -42,3 +42,4 @@ TodoApp.Server/todoapp.db-wal
 
 # User-specific project files
 TodoApp.Server/TodoApp.Server.csproj.user
+/TodoApp.Client/android
