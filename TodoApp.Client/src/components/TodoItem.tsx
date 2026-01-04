@@ -31,7 +31,8 @@ export function TodoItem({
 
   return (
     <li
-      className={`group flex items-center gap-4 p-4 rounded-xl border transition-all duration-200 ${
+      tabIndex={0}
+      className={`group flex items-center gap-4 p-4 rounded-xl border transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:ring-offset-2 focus:ring-offset-slate-800 ${
         todo.completed 
           ? 'bg-slate-700/20 border-slate-600/20' 
           : 'bg-slate-700/40 border-slate-600/40 hover:bg-slate-700/60 hover:border-slate-500/50'
@@ -66,7 +67,7 @@ export function TodoItem({
           {todo.text}
         </span>
       )}
-      <div className="flex gap-2 opacity-0 group-hover:opacity-100 [@media(hover:none)_and_(pointer:coarse)]:opacity-100 transition-opacity duration-200">
+      <div className="flex gap-2 opacity-0 group-hover:opacity-100 group-focus:opacity-100 transition-opacity duration-200">
         {isEditing ? (
           <>
             <button
