@@ -47,3 +47,8 @@ TodoApp.Server/TodoApp.Server.csproj.user
 # Environment variables
 .env
 .env.*
+
+# Firebase
+.firebase/
+.firebaserc
+firebase.json

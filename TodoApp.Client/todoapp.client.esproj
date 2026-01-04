@@ -12,8 +12,10 @@
     <None Remove=".vscode\**" />
     <None Remove="android\**" />
     <None Remove="dist\**" />
+    <None Remove=".firebaserc" />
     <None Remove=".gitignore" />
     <None Remove="eslint.config.js" />
+    <None Remove="firebase.json" />
     <None Remove="README.md" />
     <None Remove="tsconfig.app.json" />
     <None Remove="tsconfig.node.json" />
