@@ -118,14 +118,14 @@ export function Header() {
       {showLoginModal && (
         <>
           <div
-            className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[60] flex items-center justify-center p-4"
+            className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[60] flex items-center justify-center p-4 overflow-y-auto"
             onMouseDown={() => {
               setShowLoginModal(false)
               resetForm()
             }}
           >
             <div
-              className="bg-slate-800/95 backdrop-blur-xl rounded-3xl border border-slate-700/50 p-6 sm:p-8 w-full max-w-md"
+              className="bg-slate-800/95 backdrop-blur-xl rounded-3xl border border-slate-700/50 p-6 sm:p-8 w-full max-w-md my-auto max-h-[90vh] overflow-y-auto"
               onClick={(e) => e.stopPropagation()}
               onMouseDown={(e) => e.stopPropagation()}
             >
