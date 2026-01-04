@@ -4,7 +4,7 @@ interface GuestWarningProps {
 
 export function GuestWarning({ onDismiss }: GuestWarningProps) {
   return (
-    <div className="bg-amber-500/5 border border-amber-500/15 rounded-2xl p-5 mb-6 backdrop-blur-sm relative z-50">
+    <div className="bg-amber-500/5 border border-amber-500/15 rounded-2xl p-5 mb-6 backdrop-blur-sm relative z-40">
       <button
         onClick={onDismiss}
         className="absolute top-3 right-3 text-amber-500/50 hover:text-amber-500/70 transition-colors duration-200 p-1 rounded-lg hover:bg-amber-500/5"
