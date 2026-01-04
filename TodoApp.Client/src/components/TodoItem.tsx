@@ -67,7 +67,7 @@ export function TodoItem({
           {todo.text}
         </span>
       )}
-      <div className="flex gap-2 opacity-0 group-hover:opacity-100 group-focus:opacity-100 transition-opacity duration-200">
+      <div className="flex gap-2 invisible opacity-0 group-hover:visible group-hover:opacity-100 group-focus:visible group-focus:opacity-100 transition-all duration-200">
         {isEditing ? (
           <>
             <button
