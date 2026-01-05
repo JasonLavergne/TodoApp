@@ -42,7 +42,7 @@ var app = builder.Build();
 using (var scope = app.Services.CreateScope())
 {
     var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-    DbInitializer.Initialize(dbContext);
+    dbContext.Database.EnsureCreated();
 }
 
 app.UseDefaultFiles();
