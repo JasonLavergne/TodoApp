@@ -45,7 +45,7 @@ That's it! Open `http://localhost:5173` in your browser.
 **Trade-offs & Assumptions**:
 - Using SQLite for simplicity (no database server needed). For production, PostgreSQL would be better for concurrent users.
 - Simple GUID tokens instead of JWT (works for MVP, but JWT would be needed for real auth).
-- Guest mode uses localStorage (data doesn't persist across devices, but allows testing without signup).
+- Guest mode uses localStorage (IndexedDB would be better for structured data and larger storage, but localStorage is simpler for MVP).
 - No pagination (assumes users won't have thousands of todos).
 
 **Scalability**: Current setup handles single-user to small-team use. For scale, you'd want: PostgreSQL, JWT auth, pagination, and caching.
