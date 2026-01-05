@@ -30,7 +30,7 @@ export function TodoInput({ input, initialLoading, isAuthenticated, onInputChang
                         onKeyPress={onKeyPress}
                         placeholder="What needs to be done?"
                         disabled={initialLoading}
-                        className="flex-1 min-w-0 px-5 py-2.5 bg-slate-700/40 border border-slate-600/40 rounded-xl text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/60 focus:border-blue-500/60 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed text-base shadow-inner"
+                        className="flex-1 min-w-0 px-5 py-2.5 bg-slate-700/40 border border-slate-600/40 rounded-xl text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-4 focus:ring-blue-500/25 focus:border-blue-500/60 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed text-base shadow-inner"
                     />
                     <button
                         onClick={onAdd}

@@ -32,7 +32,7 @@ export function TodoItem({
   return (
     <li
       tabIndex={0}
-      className={`group flex items-center gap-4 p-4 rounded-xl border transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:ring-offset-2 focus:ring-offset-slate-800 ${
+      className={`group flex items-center gap-4 p-4 rounded-xl border transition-all duration-200 focus:outline-none focus:ring-4 focus:ring-blue-500/25 focus:border-blue-500/60 ${
         todo.completed 
           ? 'bg-slate-700/20 border-slate-600/20' 
           : 'bg-slate-700/40 border-slate-600/40 hover:bg-slate-700/60 hover:border-slate-500/50'
@@ -54,7 +54,7 @@ export function TodoItem({
           onChange={(e) => onEditTextChange(e.target.value)}
           onKeyDown={(e) => onEditKeyPress(e, todo.id)}
           autoFocus
-          className="flex-1 min-w-0 px-3 py-2.5 bg-slate-600/60 border border-blue-500/60 rounded-lg text-slate-100 focus:outline-none focus:ring-2 focus:ring-blue-500/60 focus:border-blue-500/60 transition-all duration-200 text-base leading-normal"
+          className="flex-1 min-w-0 px-3 py-2.5 bg-slate-600/60 border border-slate-500/60 rounded-lg text-slate-100 text-base leading-normal focus:outline-none focus:ring-4 focus:ring-blue-500/25 focus:border-blue-500/60 transition-all duration-200"
         />
       ) : (
         <span
